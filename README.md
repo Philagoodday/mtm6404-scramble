@@ -1,4 +1,5 @@
 # Scramble
 
 ## Objective
-Using React and local storage, create an interactive version of the game Scramble.
+# Name:Chuhong Feng
+# student number: 041135211

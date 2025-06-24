@@ -36,17 +36,20 @@ const { useState, useEffect } = React;
 
 const ALL_WORDS = [
   'apple', 'banana', 'orange', 'grape', 'strawberry',
-  'blueberry', 'pineapple', 'kiwi', 'mango', 'peach',
-  'apricot', 'lemon', 'lime', 'cherry', 'plum'
+  'blueberry', 'pineapple', 'sister',
+'brother', 'father',
+'mother', 'grandfather', 'grandmother', 'grandson', 'daughter', 'moon',
 ];
-const MAX_STRIKES = 3;
-const INITIAL_PASSES = 3;
+const MAX_STRIKES = 90;
+const INITIAL_PASSES = 999;
 
 function ScrambleGame() {
   const [currentWord, setCurrentWord] = useState('');
   const [scrambledWord, setScrambledWord] = useState('');
   const [points, setPoints] = useState(0);
   const [strikes, setStrikes] = useState(0);
+
+
   const [passes, setPasses] = useState(INITIAL_PASSES);
   const [wordsPlayed, setWordsPlayed] = useState([]);
   const [guessInput, setGuessInput] = useState('');
@@ -56,15 +59,18 @@ function ScrambleGame() {
   // Load game state from local storage when game starts
   useEffect(() => {
     const storedPoints = localStorage.getItem('points');
+
+
     const storedStrikes = localStorage.getItem('strikes');
     const storedPasses = localStorage.getItem('passes');
+
     const storedWordsPlayed = localStorage.getItem('wordsPlayed');
     const storedCurrentWord = localStorage.getItem('currentWord');
     const storedScrambledWord = localStorage.getItem('scrambledWord');
 
     if (storedPoints !== null) setPoints(parseInt(storedPoints));
     if (storedStrikes !== null) setStrikes(parseInt(storedStrikes));
-    if (storedPasses !== null) setPasses(parseInt(storedPasses));
+  if (storedPasses !== null) setPasses(parseInt(storedPasses));
     if (storedWordsPlayed !== null) setWordsPlayed(JSON.parse(storedWordsPlayed));
     if (storedCurrentWord !== null && storedScrambledWord !== null) {
       setCurrentWord(storedCurrentWord);
@@ -74,7 +80,7 @@ function ScrambleGame() {
     }
   }, []);
 
-  // Save game state to local storage whenever it changes
+  // Save game state to local storage whenever itchanges
   useEffect(() => {
     localStorage.setItem('points', points);
     localStorage.setItem('strikes', strikes);
@@ -82,9 +88,11 @@ function ScrambleGame() {
     localStorage.setItem('wordsPlayed', JSON.stringify(wordsPlayed));
     localStorage.setItem('currentWord', currentWord);
     localStorage.setItem('scrambledWord', scrambledWord);
-  }, [points, strikes, passes, wordsPlayed, currentWord, scrambledWord]);
+  }, [points, strikes, passes, wordsPlayed, currentWord, scrambledWord
+  
+  ]);
 
-  // Check if game is over
+  // Check if game over
   useEffect(() => {
     if (strikes >= MAX_STRIKES) {
       setGameOver(true);
@@ -95,7 +103,7 @@ function ScrambleGame() {
     }
   }, [strikes, wordsPlayed]);
 
-  // Get a new scrambled word
+  // Get A new scrambled words
   const initializeNewWord = () => {
     const availableWords = ALL_WORDS.filter(word => !wordsPlayed.includes(word));
     if (availableWords.length === 0) {
@@ -109,7 +117,7 @@ function ScrambleGame() {
     setMessage('');
   };
 
-  // Update guess input
+  // Update guessinput
   const handleInputChange = (event) => {
     setGuessInput(event.target.value);
   };
@@ -123,8 +131,7 @@ function ScrambleGame() {
       setMessage('Correct!');
       setWordsPlayed(prevWords => [...prevWords, currentWord]);
       setGuessInput('');
-      initializeNewWord();
-    } else {
+      initializeNewWord();} else {
       setStrikes(prevStrikes => prevStrikes + 1);
       setMessage('Incorrect!');
       setGuessInput('');
@@ -132,6 +139,8 @@ function ScrambleGame() {
   };
 
   // Handle Enter key press for guess
+
+
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       handleGuess();
@@ -140,9 +149,7 @@ function ScrambleGame() {
 
   // Handle pass button click
   const handlePass = () => {
-    if (gameOver || passes <= 0) {
-      return;
-    }
+    if (gameOver || passes <= 0) {return;}
     setPasses(prevPasses => prevPasses - 1);
     setWordsPlayed(prevWords => [...prevWords, currentWord]);
     initializeNewWord();
@@ -162,7 +169,7 @@ function ScrambleGame() {
     initializeNewWord();
   };
 
-  return (
+return (
     <div className="scramble-game">
       <h1>Scramble Game</h1>
 
@@ -198,10 +205,8 @@ function ScrambleGame() {
           <h2>{message}</h2>
           <button onClick={handleReset}>Play Again</button>
         </div>
-      )}
-    </div>
-  );
-}
+      )}</div>
+  );}
 
-// Render the game
+// Render the game.
 ReactDOM.render(<ScrambleGame />, document.getElementById('root'));
